@@ -1,0 +1,9 @@
+.main{
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+
+}
+body{
+    background-color: rgb(220, 211, 211) !important;
+}

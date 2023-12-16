@@ -1,0 +1,19 @@
+.heading{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    color: rgb(218, 69, 94);
+    font-weight: 600;
+
+}
+body{
+    background-color: rgb(232, 229, 229) !important;
+}
+/*    background-image: url(../images.jpeg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat; */
+/* }
+.main{
+    color: white;
+} */

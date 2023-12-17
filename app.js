@@ -1,7 +1,7 @@
 
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { db } from "./config.js";
 import { auth } from "./config.js";
+import { db } from "./config.js";
 import { collection, addDoc, getDocs,updateDoc, doc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 
@@ -80,9 +80,9 @@ const adminuserid = localStorage.getItem('adminuserid')
 const usserid = localStorage.getItem('userid')
   const getitems = () => {
 
-    onSnapshot(collection(db, adminuserid), (data) => {
+    onSnapshot(collection(db,'items'), (data) => {
       data.docChanges().forEach((change) => {
-        // console.log(change.type);
+        console.log(change.type);
         // console.log((usserid));
         // ids.push(change.doc.id)
         // console.log(ids)
@@ -90,6 +90,7 @@ const usserid = localStorage.getItem('userid')
         if (change.type === "added") {
   
           console.log(change.doc.data())
+          
           getitemss.innerHTML +=
             `
             <div class="food-menu-container container">
@@ -105,11 +106,12 @@ const usserid = localStorage.getItem('userid')
                     <p class="food-price">Catagory: <span class="food-price"${change.doc.data().itemcatagory}</span></p>
                     <p class="food-price">Price: &#8377;<span>${change.doc.data().itemprize}</span></p>
                 
-                    <a href="" class="btn btn-primary" id="">Edit menu</a>
+                    <a href="" class="btn btn-primary" id="">ADD TO CART</a>
                 </div>
             </div>
         </div>
-            `
+        
+           `
   
         }
         else if (change.type === "removed") {
@@ -136,3 +138,4 @@ const usserid = localStorage.getItem('userid')
   getitems()
   
   
+

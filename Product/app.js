@@ -1,3 +1,6 @@
+
+import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth } from "../config.js";
 import { db } from "../config.js";
 import {
   collection,
@@ -13,6 +16,11 @@ import {
 
 
 
+
+
+const homebtn = document.querySelector("#homebtn")
+homebtn.addEventListener('click',()=>{window.location = "../index.html"})
+
 const additem = document.querySelector("#additem")
 const itemname = document.querySelector("#itemname")
 const itemdiscribtion = document.querySelector("#itemDiscribtion")
@@ -25,6 +33,24 @@ const adminuserid = localStorage.getItem('adminuserid')
 const usserid = localStorage.getItem('userid')
 console.log(adminuserid)
 additem.addEventListener('click',async ()=>{
+    try {
+      const docRef = await addDoc(collection(db,"items"), {
+        itemname:itemname.value,
+        itemdiscribtion:itemdiscribtion.value,
+        itemprize:itemprize.value,
+        itemcatagory:itemcatagory.value,
+    
+        });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  
+  
+    
+  })
+  if(true){
+  additem.addEventListener('click',async ()=>{
     try {
       const docRef = await addDoc(collection(db,adminuserid), {
         itemname:itemname.value,
@@ -41,19 +67,23 @@ additem.addEventListener('click',async ()=>{
   
     
   })
-  
+
+  }
+
+
+
+
+
+
 
 const getitemss = document.querySelector("#food-menu")
 
 
   const getitems = () => {
 
-    onSnapshot(collection(db, adminuserid), (data) => {
+    onSnapshot(collection(db,adminuserid), (data) => {
       data.docChanges().forEach((change) => {
-        // console.log(change.type);
-        // console.log((usserid));
-        // ids.push(change.doc.id)
-        // console.log(ids)
+       
   
         if (change.type === "added") {
   
@@ -105,5 +135,5 @@ const getitemss = document.querySelector("#food-menu")
   
   
 
-
+   
 

@@ -232,6 +232,12 @@ body {
   font-weight: 600;
 
 }
+.val{
+  position: relative;
+  bottom: 50%;
+  right: 10%;
+  color: red;
+}
 
 .img-content {
   position: absolute;

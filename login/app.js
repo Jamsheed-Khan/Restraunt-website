@@ -19,10 +19,17 @@ let Email = document.querySelector('#Email')
             console.log(user);
             localStorage.setItem('userid',user.uid)
             console.log(user.uid)
+            
             window.location = '../index.html'
         })
         .catch((error) => {
             const errorMessage = error.message;
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+                
+              });
             console.log(errorMessage);
         });
 });

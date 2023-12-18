@@ -24,19 +24,33 @@ const password = document.querySelector("#password")
 
 
 
-signupbtn.addEventListener('click', function () {
+signupbtn.addEventListener('click', function (e) {
+  e.preventDefault()
 
   createUserWithEmailAndPassword(auth, Email.value, password.value, username.value)
     .then((userCredential) => {
 
       const user = userCredential.user;
       console.log('user==>', user);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "account create sucesssfully",
+        showConfirmButton: false,
+        timer: 1500
+      });
       window.location = "../login/login.html"
       // ...
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+        
+      });
       console.log("error==>", errorMessage);
     });
 });

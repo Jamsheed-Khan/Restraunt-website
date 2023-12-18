@@ -2,6 +2,7 @@
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { auth } from "../config.js";
 import { db } from "../config.js";
+// import { storage } from "../config.js";
 import {
   collection,
   addDoc,
@@ -32,25 +33,50 @@ const itemimage = document.querySelector('#itemimage')
 const adminuserid = localStorage.getItem('adminuserid')
 const usserid = localStorage.getItem('userid')
 console.log(adminuserid)
-additem.addEventListener('click',async ()=>{
+
+  additem.addEventListener('click',async ()=>{
+    if(itemname.value == "" ){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "please write something in fields!",
+        
+      });  
+    }
+    else{
+  
     try {
+
       const docRef = await addDoc(collection(db,"items"), {
         itemname:itemname.value,
         itemdiscribtion:itemdiscribtion.value,
         itemprize:itemprize.value,
         itemcatagory:itemcatagory.value,
-    
-        });
+        
+      });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  
-  
     
-  })
+  }}) 
+
+
+
+
+
+
   if(true){
   additem.addEventListener('click',async ()=>{
+    if(itemname.value == "" ){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "please write something in fields!",
+        
+      });  
+    }
+    else{
     try {
       const docRef = await addDoc(collection(db,adminuserid), {
         itemname:itemname.value,
@@ -65,9 +91,9 @@ additem.addEventListener('click',async ()=>{
     }
   
   
-    
-  })
-
+   
+  }})
+  
   }
 
 

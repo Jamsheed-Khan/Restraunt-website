@@ -23,7 +23,7 @@ const Email = document.querySelector("#registerEmail")
 const password = document.querySelector("#registerpass")
 const company = document.querySelector("#inputPassword1")
 const Business = document.querySelector("#inputPassword2")
-const industry = document.querySelector("#inputGroupSelect02")
+const industry = document.querySelector("#inputindustry")
 console.log(industry);
 const street = document.querySelector("#inputPassword4")
 const postal = document.querySelector("#inputPassword5")

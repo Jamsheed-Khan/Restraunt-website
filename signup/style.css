@@ -9,9 +9,9 @@ margin: 0;
 font-family: poppins, Arial, Helvetica, sans-serif;
 font-size: 16px;
 font-weight: 400;
-color: #666666;
+color: #fcfcfc;
 background: #eaeff4;
-background-image: url(../pexels-photo-326281.jpeg);
+background-image: url(../vegetables-italian-knife-placed-left-black-table.jpg);
 background-position: center;
 background-size: cover;
 background-repeat: no-repeat;
@@ -29,12 +29,15 @@ flex-direction: column;
 }
 
 .container{
+    border-radius: 10px;
 position: relative;
 width: 100%;
 max-width: 600px;
 height: auto;
 display: flex;
 background: #ffffff;
+background: transparent;
+backdrop-filter: blur(15px);
 box-shadow: 0 0 5px #999999;
 }
 
@@ -51,6 +54,7 @@ display: flex;
     width: 60%;
     clip-path: polygon(0 0, 0% 100%, 100% 0 );
     background: #2aa15f;
+    border-radius:10px 0px 10px 10px;
     }
 
     .login .col-right{
@@ -129,7 +133,7 @@ display: flex;
         .login .login-form p{
         margin: 0 0 10px 0;
         text-align: left;
-        color: #666666;
+        color: #ffffff;
         font-size: 15px;
         }
         .login .login-form p:last-child{

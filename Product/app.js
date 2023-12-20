@@ -1,8 +1,9 @@
 
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { ref,uploadBytes,uploadBytesResumable, getDownloadURL  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { auth } from "../config.js";
 import { db } from "../config.js";
-// import { storage } from "../config.js";
+import { storage } from "../config.js";
 import {
   collection,
   addDoc,
@@ -33,6 +34,56 @@ const itemimage = document.querySelector('#itemimage')
 const adminuserid = localStorage.getItem('adminuserid')
 const usserid = localStorage.getItem('userid')
 console.log(adminuserid)
+
+
+if (true){
+
+
+  additem.addEventListener('click',()=>{
+  
+    const mountainsRef = ref(storage,`images/${itemimage.files[0].name}`);
+    const uploadTask = uploadBytesResumable(mountainsRef, itemimage.files[0]);
+  
+  
+    uploadTask.on('state_changed', 
+    (snapshot) => {
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Upload is paused');
+          break;
+        case 'running':
+          console.log('Upload is running');
+          break;
+      }
+    }, 
+    (error) => {
+      console.log(error);
+      // Handle unsuccessful uploads
+    }, 
+    () => {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+        
+        const imaageurl = downloadURL;
+
+        
+
+      });
+    }
+    );
+    
+  })
+  
+}
+  
+
+
 
   additem.addEventListener('click',async ()=>{
     if(itemname.value == "" ){
@@ -126,7 +177,7 @@ const getitemss = document.querySelector("#food-menu")
                     <p>
                        ${change.doc.data().itemdiscribtion}
                     </p>
-                    <p class="food-price">Catagory: <span class="food-price"${change.doc.data().itemcatagory}</span></p>
+                    <p class="food-price">Catagory: <span class="food-price">${change.doc.data().itemcatagory}</span></p>
                     <p class="food-price">Price: &#8377;<span>${change.doc.data().itemprize}</span></p>
                 
                     <a href="" class="btn btn-primary" id="">Edit menu</a>

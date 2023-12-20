@@ -103,7 +103,7 @@ const usserid = localStorage.getItem('userid')
                     <p>
                        ${change.doc.data().itemdiscribtion}
                     </p>
-                    <p class="food-price">Catagory: <span class="food-price"${change.doc.data().itemcatagory}</span></p>
+                    <p class="food-price">Catagory: <span class="food-price">${change.doc.data().itemcatagory}</span></p>
                     <p class="food-price">Price: &#8377;<span>${change.doc.data().itemprize}</span></p>
                 
                     <a href="" class="btn btn-primary" id="">ADD TO CART</a>

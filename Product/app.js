@@ -1,6 +1,6 @@
 
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { ref,uploadBytes,uploadBytesResumable, getDownloadURL  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { auth } from "../config.js";
 import { db } from "../config.js";
 import { storage } from "../config.js";
@@ -21,7 +21,7 @@ import {
 
 
 const homebtn = document.querySelector("#homebtn")
-homebtn.addEventListener('click',()=>{window.location = "../index.html"})
+homebtn.addEventListener('click', () => { window.location = "../index.html" })
 
 const additem = document.querySelector("#additem")
 const itemname = document.querySelector("#itemname")
@@ -33,119 +33,124 @@ const itemimage = document.querySelector('#itemimage')
 
 const adminuserid = localStorage.getItem('adminuserid')
 const usserid = localStorage.getItem('userid')
-console.log(adminuserid)
+let imgUrl;
 
 
-if (true){
+const imgOutputDiv = document.querySelector(".imgOutputDiv");
+const imgOutput = document.querySelector("#imgOutput");
 
-
-  additem.addEventListener('click',()=>{
-  
-    const mountainsRef = ref(storage,`images/${itemimage.files[0].name}`);
-    const uploadTask = uploadBytesResumable(mountainsRef, itemimage.files[0]);
-  
-  
-    uploadTask.on('state_changed', 
-    (snapshot) => {
-      // Observe state change events such as progress, pause, and resume
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log('Upload is ' + progress + '% done');
-      switch (snapshot.state) {
-        case 'paused':
-          console.log('Upload is paused');
-          break;
-        case 'running':
-          console.log('Upload is running');
-          break;
-      }
-    }, 
-    (error) => {
-      console.log(error);
-      // Handle unsuccessful uploads
-    }, 
-    () => {
-      // Handle successful uploads on complete
-      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
-        
-        const imaageurl = downloadURL;
-
-        
-
-      });
-    }
+const downloadImageUrl = (file) => {
+  return new Promise((resolve, reject) => {
+    const restaurantImageRef = ref(
+      storage,
+      `images/${file.name}`
     );
-    
-  })
-  
-}
-  
+    const uploadTask = uploadBytesResumable(restaurantImageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        switch (snapshot.state) {
+          case "paused":
+            break;
+          case "running":
+            console.log("running");
+            break;
+        }
+      },
+      (error) => {
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then((downloadURL) => {
+            resolve(downloadURL);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      }
+    );
+  });
+};
 
 
-
-  additem.addEventListener('click',async ()=>{
-    if(itemname.value == "" ){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "please write something in fields!",
-        
-      });  
+itemimage.addEventListener("change", async () => {
+  if (itemimage.files.length > 0) {
+    const file = itemimage.files[0];
+    imgUrl = await downloadImageUrl(file);
+    imgOutputDiv.style.display = "block";
+    if (imgUrl) {
+      imgOutput.src = imgUrl;
     }
-    else{
-  
-    try {
-
-      const docRef = await addDoc(collection(db,"items"), {
-        itemname:itemname.value,
-        itemdiscribtion:itemdiscribtion.value,
-        itemprize:itemprize.value,
-        itemcatagory:itemcatagory.value,
-        
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-    
-  }}) 
-
-
-
-
-
-
-  if(true){
-  additem.addEventListener('click',async ()=>{
-    if(itemname.value == "" ){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "please write something in fields!",
-        
-      });  
-    }
-    else{
-    try {
-      const docRef = await addDoc(collection(db,adminuserid), {
-        itemname:itemname.value,
-        itemdiscribtion:itemdiscribtion.value,
-        itemprize:itemprize.value,
-        itemcatagory:itemcatagory.value,
-    
-        });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  
-  
-   
-  }})
-  
   }
+})
+
+
+
+additem.addEventListener('click', async () => {
+  if (itemname.value == "") {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "please write something in fields!",
+
+    });
+  }
+  else {
+
+    try {
+
+      const docRef = await addDoc(collection(db, "items"), {
+        itemname: itemname.value,
+        itemdiscribtion: itemdiscribtion.value,
+        itemprize: itemprize.value,
+        itemcatagory: itemcatagory.value,
+        itemImage: imgUrl
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+
+  }
+})
+
+
+
+
+
+
+if (true) {
+  additem.addEventListener('click', async () => {
+    if (itemname.value == "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "please write something in fields!",
+
+      });
+    }
+    else {
+      try {
+        const docRef = await addDoc(collection(db, adminuserid), {
+          itemname: itemname.value,
+          itemdiscribtion: itemdiscribtion.value,
+          itemprize: itemprize.value,
+          itemcatagory: itemcatagory.value,
+          itemimage: imgUrl
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
+
+
+    }
+  })
+
+}
 
 
 
@@ -156,21 +161,20 @@ if (true){
 const getitemss = document.querySelector("#food-menu")
 
 
-  const getitems = () => {
+const getitems = () => {
 
-    onSnapshot(collection(db,adminuserid), (data) => {
-      data.docChanges().forEach((change) => {
-       
-  
-        if (change.type === "added") {
-  
-          console.log(change.doc.data())
-          getitemss.innerHTML +=
-            `
+  onSnapshot(collection(db, adminuserid), (data) => {
+    data.docChanges().forEach((change) => {
+
+
+      if (change.type === "added") {
+
+        getitemss.innerHTML +=
+          `
             <div class="food-menu-container container">
             <div class="food-menu-item">
                 <div class="food-img">
-                    <img src="https://i.postimg.cc/wTLMsvSQ/food-menu1.jpg" alt="" />
+                    <img src="${change.doc.data().itemimage}" alt="" />
                 </div>
                 <div class="food-description">
                     <h2 class="food-titile">${change.doc.data().itemname}</h2>
@@ -185,32 +189,32 @@ const getitemss = document.querySelector("#food-menu")
             </div>
         </div>
             `
-  
-        }
-        else if (change.type === "removed") {
-          let addd = document.getElementById(change.doc.id)
-          if (addd) {
-  
-            addd.remove()
-          }
-        }
-        else{
-  
-  
-  
-  
-  
-  
-        }
-      })
-  
-    });
-  
-  }
-  
-  getitems()
-  
-  
 
-   
+      }
+      else if (change.type === "removed") {
+        let addd = document.getElementById(change.doc.id)
+        if (addd) {
+
+          addd.remove()
+        }
+      }
+      else {
+
+
+
+
+
+
+      }
+    })
+
+  });
+
+}
+
+getitems()
+
+
+
+
 

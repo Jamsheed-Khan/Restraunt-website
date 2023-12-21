@@ -171,7 +171,7 @@ const getitems = () => {
 
         getitemss.innerHTML +=
           `
-            <div class="food-menu-container container">
+            <div class="food-menu-container container" id="${change.doc.id}">
             <div class="food-menu-item">
                 <div class="food-img">
                     <img src="${change.doc.data().itemimage}" alt="" />
@@ -184,13 +184,15 @@ const getitems = () => {
                     <p class="food-price">Catagory: <span class="food-price">${change.doc.data().itemcatagory}</span></p>
                     <p class="food-price">Price: &#8377;<span>${change.doc.data().itemprize}</span></p>
                 
-                    <a href="" class="btn btn-primary" id="">Edit menu</a>
+                    <a href="#" id="editpopbtn" class="btn btn-primary" onclick="abc()">Edit menu</a>
                 </div>
             </div>
         </div>
             `
 
       }
+
+
       else if (change.type === "removed") {
         let addd = document.getElementById(change.doc.id)
         if (addd) {
@@ -206,6 +208,13 @@ const getitems = () => {
 
 
       }
+      // const itemid = change.doc.id
+      // console.log(itemid);
+
+
+
+
+
     })
 
   });
@@ -213,8 +222,45 @@ const getitems = () => {
 }
 
 getitems()
+// const itemid = change.doc.id
+// console.log(itemid);
 
 
+// const editpopbtn = document.querySelector('#editpopbtn')
 
+// if (true){
+//   editpopbtn.addEventListener('click',()=>{
+//     const popy = document.querySelector("#popy")
+// })
+// }
+window.abc = function(){
+  
+      popy.classList.add('popyopen')
+}
 
+window.cba = function(){
+  
+  popy.classList.remove('popyopen')
+}
+// async function editItem(id) {
+//   const restRef = doc(db, `restaurants/${adminUid}/menue`, id);
+//   updateItemId = id;
+//   onSnapshot(restRef, (selectItem) => {
+//     if (selectItem.exists()) {
+//       const itemImg = selectItem.data().itemImg;
+//       const itemName = selectItem.data().itemName;
+//       const itemDesc = selectItem.data().itemDesc;
+//       const itemPrice = selectItem.data().itemPrice;
+//       const itemType = selectItem.data().itemType;
+//       const prevPrice = selectItem.data().prevPrice;
+
+//       EditimgOutput.src = itemImg;
+//       EditItemName.value = itemName;
+//       EdititemDesc.value = itemDesc;
+//       EditItemType.value = itemType;
+//       editItemPrice.value = itemPrice;
+//       editPrevItemPrice.value = prevPrice;
+//     }
+//   });
+// }
 

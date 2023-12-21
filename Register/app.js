@@ -51,14 +51,15 @@ registerbtn.addEventListener('click', function () {
     });
 });
 
-const userid = localStorage.getItem('userid')
+const adminuserid = localStorage.getItem('adminuserid')
+
 
 
 registerbtn.addEventListener('click',async ()=>{
     const admin = Math.random()*100;
     console.log(admin)
     try {
-      const docRef = await addDoc(collection(db,userid), {
+      const docRef = await addDoc(collection(db,adminuserid), {
         email:Email.value,
         password:password.value,
         fristname:fristname.value,

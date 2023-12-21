@@ -96,7 +96,7 @@ const usserid = localStorage.getItem('userid')
             <div class="food-menu-container container">
             <div class="food-menu-item">
                 <div class="food-img">
-                    <img src="https://i.postimg.cc/wTLMsvSQ/food-menu1.jpg" alt="" />
+                    <img src="${change.doc.data().itemImage}" alt="" />
                 </div>
                 <div class="food-description">
                     <h2 class="food-titile">${change.doc.data().itemname}</h2>
@@ -139,3 +139,91 @@ const usserid = localStorage.getItem('userid')
   
   
 
+
+
+
+const usermain = document.querySelector(".main")
+  
+  window.userdata = function(){
+      usermain.classList.add('visiprof')
+ 
+
+  }
+window.userhide = function(){
+  usermain.classList.remove("visiprof")
+}
+
+
+
+// profile portion 
+
+
+const getname = document.querySelector('.one')
+const getemail = document.querySelector('.two')
+const getcom = document.querySelector('.three')
+const getph = document.querySelector('.four')
+const userimage = document.querySelector('.userimg')
+
+
+
+
+
+const getprofile = () => {
+
+  onSnapshot(collection(db,'users'), (data) => {
+    data.docChanges().forEach((change) => {
+      // console.log(change.type);
+      console.log(change.doc.data())
+
+      if (change.type === "added") {
+
+        
+        getname.innerHTML = change.doc.data().Name
+        // getemail.innerHTML = change.doc.data().company
+        getcom.innerHTML = change.doc.data().email
+        // getph.innerHTML = change.doc.data().phone
+        
+      //     `
+      //     <div class="food-menu-container container">
+      //     <div class="food-menu-item">
+      //         <div class="food-img">
+      //             <img src="${change.doc.data().itemImage}" alt="" />
+      //         </div>
+      //         <div class="food-description">
+      //             <h2 class="food-titile">${change.doc.data().itemname}</h2>
+      //             <p>
+      //                ${change.doc.data().itemdiscribtion}
+      //             </p>
+      //             <p class="food-price">Catagory: <span class="food-price">${change.doc.data().itemcatagory}</span></p>
+      //             <p class="food-price">Price: &#8377;<span>${change.doc.data().itemprize}</span></p>
+              
+      //             <a href="" class="btn btn-primary" id="">ADD TO CART</a>
+      //         </div>
+      //     </div>
+      // </div>
+      
+      //    `
+
+      }
+      else if (change.type === "removed") {
+        let addd = document.getElementById(change.doc.id)
+        if (addd) {
+
+          addd.remove()
+        }
+      }
+      else{
+
+
+
+
+
+
+      }
+    })
+
+  });
+
+}
+
+getprofile()
